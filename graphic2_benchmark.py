@@ -18,10 +18,10 @@ BAR_RISING = '#B8B8B8'        # slightly darker mid-bars
 GRID_COLOR = '#E8E8E8'
 FONT = 'Helvetica Neue'
 
-# --- Data ---
-models = ['Claude 2', 'Claude 3\nOpus', 'Claude 3.5\nSonnet', 'Claude 3.5\nSonnet v2', 'Claude\nOpus 4']
-scores = [35, 60, 71, 79, 88]
-bar_colors = ['#D0D0D0', '#BFBFBF', '#ABABAB', '#969696', ACCENT_GLOW]
+# --- Data (verified from Anthropic October 2024 Model Card Addendum, Tables 7 & 8) ---
+models = ['Claude 3\nSonnet', 'Claude 3.5\nHaiku', 'Claude 3\nOpus', 'Claude 3.5\nSonnet', 'Claude 3.5\nSonnet v2']
+scores = [81.1, 85.9, 86.7, 87.8, 90.2]
+bar_colors = ['#D0D0D0', '#C4C4C4', '#B8B8B8', '#A0A0A0', ACCENT_GLOW]
 
 # --- Figure Setup ---
 fig, ax = plt.subplots(1, 1, figsize=(12, 6.28), dpi=100)
@@ -50,9 +50,9 @@ for bar in bars:
 # Glow effect on last bar
 last_bar = bars[-1]
 glow_rect = patches.FancyBboxPatch(
-    (last_bar.get_x() - 0.05, 0),
+    (last_bar.get_x() - 0.05, 75),
     last_bar.get_width() + 0.1,
-    scores[-1],
+    scores[-1] - 75,
     boxstyle="round,pad=0.02",
     facecolor=ACCENT_GLOW,
     alpha=0.08,
@@ -83,8 +83,8 @@ ax.set_xlabel('Model Generation',
               labelpad=10)
 
 # Y-axis
-ax.set_ylim(0, 100)
-ax.set_yticks([0, 20, 40, 60, 80, 100])
+ax.set_ylim(75, 95)
+ax.set_yticks([75, 80, 85, 90, 95])
 ax.tick_params(axis='y', colors=TEXT_DIMMED, labelsize=9)
 ax.tick_params(axis='x', colors=TEXT_DIMMED, length=0, pad=8)
 
@@ -98,7 +98,7 @@ for spine in ax.spines.values():
 
 # --- Footnote ---
 fig.text(0.5, 0.03,
-         'Source: Anthropic model cards (approximate scores)',
+         'Source: Anthropic Model Card Addendum, October 2024 (Tables 7 & 8)',
          fontsize=8, color=TEXT_DIMMED,
          ha='center', va='center', fontfamily=FONT,
          style='italic')
